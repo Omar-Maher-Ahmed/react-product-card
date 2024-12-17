@@ -1,0 +1,40 @@
+.container {
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #f8f9fa; /* Light gray background */
+text-align: center;
+margin: 0;
+}
+
+.title {
+font-size: 4rem;
+font-weight: bold;
+color: #000;
+margin-bottom: 1rem;
+}
+
+.message {
+font-size: 1.2rem;
+color: #6c757d; /* Bootstrap gray */
+margin-bottom: 2rem;
+}
+
+.homeButton {
+padding: 0.8rem 1.5rem;
+font-size: 1rem;
+font-weight: bold;
+color: #fff;
+background-color: #dc3545; /* Bootstrap danger (red) */
+border: none;
+border-radius: 5px;
+text-decoration: none;
+display: inline-block;
+transition: background-color 0.3s ease;
+}
+
+.homeButton:hover {
+background-color: #c82333; /* Darker red on hover */
+}

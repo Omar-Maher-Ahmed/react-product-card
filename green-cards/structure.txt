@@ -1,0 +1,17 @@
+my-react-app/
+├── node_modules/
+├── public/
+├── src/
+|   |_____ Pages
+|   |	    |__Home
+|   |       |__Login
+|   | 
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── .gitignore
+├── index.html
+├── package.json
+├── README.md
+├── vite.config.js

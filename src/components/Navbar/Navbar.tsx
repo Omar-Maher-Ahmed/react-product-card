@@ -5,12 +5,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Logo from "../Logo/Logo";
 import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
+// import { Link } from "react-router-dom";
+// import { useAppContext } from "../../context/AppContext";
+// import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+// import Tooltip from "react-bootstrap/Tooltip";
+
 export default function NavbarCom() {
-  const { user } = useAppContext();
+  // const { user } = useAppContext();
 
   const [formData, setFormData] = useState("");
 
@@ -33,10 +36,10 @@ export default function NavbarCom() {
           Green-Carts
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-
+        </Container>
         {/* CONTROLLER */}
-        <Navbar.Collapse id="responsive-navbar-nav d-flex justify-content-space-between">
-          <Nav className="mx-auto">
+        <Navbar.Collapse id="responsive-navbar-nav" className="d-flex justify-content-center align-content-between">
+          <Nav className="mx-auto ">
             <Form className="position-relative w-fit" onSubmit={handleSubmit}>
               <Form.Control
                 type="text"
@@ -52,104 +55,47 @@ export default function NavbarCom() {
                 <i className="bi bi-search"></i>
               </Button>
             </Form>
-          </Nav>
+            </Nav>
+          </Navbar.Collapse>
           <Nav className="d-flex gap-4 align-items-center">
-            <OverlayTrigger
-              overlay={
-                <Tooltip
-                  className="text-dark-50 opacity-100 bg-transparent"
-                  id={"products"}
-                >
-                  Products
-                </Tooltip>
-              }
-            >
-              <Tooltip
-                id="products"
-                className="text-dark-50 opacity-100 bg-transparent"
-              >
-                <Link className="text-dark-50" to="/products">
-                  <i className="bi bi-basket text-dark-50 fw-bolder fs-4"></i>
-                </Link>
-              </Tooltip>
-            </OverlayTrigger>
-            <OverlayTrigger
-              overlay={
-                <Tooltip
-                  className="text-dark-50 opacity-100 bg-transparent"
-                  id={"wishlist"}
-                >
-                  Wishlist
-                </Tooltip>
-              }
-            >
-              <Tooltip
-                id="wishlist"
-                className="text-dark-50 opacity-100 bg-transparent"
-              >
-                <Link to="/wishlist">
-                  <i className="text-dark-50 fw-bolder fs-4 bi bi-heart"></i>
-                </Link>
-              </Tooltip>
-            </OverlayTrigger>
-            <OverlayTrigger
-              overlay={
-                <Tooltip
-                  className="text-dark-50 opacity-100 bg-transparent"
-                  id={"cart"}
-                >
-                  Cart
-                </Tooltip>
-              }
-            >
-              <Tooltip
-                id="cart"
-                className="text-dark-50 opacity-100 bg-transparent"
-              >
-                <Link to="/cart">
-                  <i className="text-dark-50 fw-bolder fs-4 bi bi-cart2"></i>
-                </Link>
-              </Tooltip>
-            </OverlayTrigger>
+            {/* <Nav.Link href="/wishlist"> */}
+      <Navbar className="border-bottom mx-4 py-2" expand="lg">
+      <Nav className="ms-auto d-flex align-items-center">
+        {/* Heart Icon */}
+        <Nav.Link href="/wishlist" className="text-secondary hover-dark">
+          <FontAwesomeIcon icon={faHeart} />
+        </Nav.Link>
 
-            {user ? (
-              <>
-                <OverlayTrigger
-                  containerPadding={1}
-                  overlay={
-                    <Tooltip
-                      placement="bottom"
-                      className="text-dark-50 opacity-100 bg-transparent"
-                      id={"Account"}
-                    >
-                      <strong>Account</strong>
-                    </Tooltip>
-                  }
-                >
-                  <Tooltip
-                    id="Account"
-                    className="text-dark-50 opacity-100 bg-transparent"
-                  >
-                    <Link to="/Account">
-                      <i className="text-dark bi fw-bolder fs-4 bi-person icon-hover"></i>
-                      {user.username || user.first_name}
-                    </Link>
-                  </Tooltip>
-                </OverlayTrigger>
-              </>
-            ) : (
-              <>
-                <Link className="text-decoration-none text-dark" to="/register">
-                  Register
-                </Link>
-                <Link className="text-decoration-none text-dark" to="/login">
-                  Log in
-                </Link>
-              </>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+        {/* Divider */}
+        <div className="border-start mx-2" style={{ height: "20px" }}></div>
+
+        {/* Shopping Cart Icon */}
+        <Nav.Link href="/cart" className="text-secondary hover-dark">
+          <FontAwesomeIcon icon={faShoppingCart} />
+        </Nav.Link>
+
+        {/* Divider */}
+        <div className="border-start mx-2" style={{ height: "20px" }}></div>
+
+        {/* User Icon */}
+        <Nav.Link href="/profile" className="text-secondary hover-dark">
+          <FontAwesomeIcon icon={faUser} />
+        </Nav.Link>
+
+        {/* Divider */}
+        <div className="border-start mx-2" style={{ height: "20px" }}></div>
+
+        {/* Register and Login Links */}
+        <Nav.Link href="/register" className="fw-bold text-dark">
+          Register
+        </Nav.Link>
+        <div className="border-start mx-2" style={{ height: "20px" }}></div>
+        <Nav.Link href="/login" className="text-dark">
+          Log in
+        </Nav.Link>
+      </Nav>
     </Navbar>
+    </Nav>
+  </Navbar>
   );
 }

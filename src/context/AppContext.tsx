@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useContext } from "react";
-import { ILogin, IProduct, IRegister, IUser } from "../util/intaerfaces";
+import { ILogin, IProduct, IRegister, IUser } from "../util/interfaces";
 import apiClient from "../lib/axios";
 
 type AppContextType = {
@@ -8,7 +8,6 @@ type AppContextType = {
   checkUser: () => void;
   getProducts: () => void;
   handleRegister: (data: IRegister) => void;
-  loading: boolean;
   user: IUser | null;
   products: IProduct[];
 };
@@ -26,7 +25,7 @@ export const useAppContext = () => {
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [errorMSG, setErrorMSG] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const handleLogIn = async (data: ILogin) => {
@@ -101,11 +100,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     user,
     errorMSG,
     handleLogIn,
-    loading,
     handleRegister,
     checkUser,
     products,
     getProducts,
+    // loading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

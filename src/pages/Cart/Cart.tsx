@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Container, Row, Col } from "react-bootstrap";
+import { Table, Button, Form, Row, Col, Card } from "react-bootstrap";
 
 
 interface CartItem {
@@ -45,88 +45,134 @@ cart.reduce((total, item) => total + item.price * item.quantity, 0);
 const total = calculateSubtotal() * (1 - discount);
 
 return (
-<Container className="mt-4 mb-3">
-    <Row className="gy-4 mt-5 mb-5 justify-content-center align-items-center">
-    <Col md={8} className="">
-        <Table striped bordered hover>
-        <thead>
-            <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {cart.map((item) => (
-            <tr key={item.id}>
-                <td>
-                <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: "50px", marginRight: "10px" }}
-                />
-                {item.name}
-                </td>
-                <td>${item.price}</td>
-                <td>
-                <Form.Control
-                    as="select"
-                    value={item.quantity}
-                    onChange={(e) =>
-                    handleQuantityChange(item.id, parseInt(e.target.value))
-                    }
-                >
-                    {[...Array(10).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                    </option>
-                    ))}
-                </Form.Control>
-                </td>
-                <td>${item.price * item.quantity}</td>
-                <td>
-                <Button
-                    variant="danger"
-                    onClick={() => handleRemoveItem(item.id)}
-                >
-                    Remove
-                </Button>
-                </td>
-            </tr>
-            ))}
-        </tbody>
-        </Table>
-        <Button variant="secondary">Return to Shop</Button>
-    </Col>
-    <Col md={4}>
-        <div className="border p-3 mt-4">
-        <h5>Cart Total</h5>
-        <p>Subtotal: ${calculateSubtotal()}</p>
-        <p>Discount: {discount * 100}%</p>
-        <p>Total: ${total.toFixed(2)}</p>
-        <Button variant="success" className="d-block ">
-            Proceed to Checkout
-        </Button>
-        </div>
-        <Form className="mt-3">
-        <Form.Group controlId="coupon">
-            <Form.Control
+
+<div className="container my-5">
+    {/* Cart Table */}
+    <Table bordered hover className="mb-4">
+    <thead>
+        <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>
+            <div className="d-flex align-items-center">
+            <img
+                src="https://via.placeholder.com/50"
+                alt="LCD Monitor"
+                className="me-3"
+            />
+            LCD Monitor
+            </div>
+        </td>
+        <td>$650</td>
+        <td>
+            <Form.Select defaultValue="01" onChange={(e) => handleQuantityChange(1, parseInt(e.target.value))}>
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+            </Form.Select>
+        </td>
+        <td>$650</td>
+        </tr>
+        <tr>
+        <td>
+            <div className="d-flex align-items-center">
+            <img
+                src="https://via.placeholder.com/50"
+                alt="Gamepad"
+                className="me-3"
+            />
+            HI Gamepad
+            </div>
+        </td>
+        <td>$550</td>
+        <td>
+            <Form.Select defaultValue="02" onChange={(e) => handleQuantityChange(2, parseInt(e.target.value))}>
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+            </Form.Select>
+        </td>
+        <td>$1100</td>
+
+        </tr>
+        <tr>
+        <td>
+            <div className="d-flex align-items-center">
+            <img
+                src="https://via.placeholder.com/50"
+                alt="Gamepad"
+                className="me-3"
+            />
+            HI Gamepad
+            </div>
+        </td>
+        <td>$550</td>
+        <td>
+            <Form.Select defaultValue="02" onChange={(e) => handleQuantityChange(2, parseInt(e.target.value))}>
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+            </Form.Select>
+        </td>
+        <td>$1100</td>
+        </tr>
+    </tbody>
+    </Table>
+
+    {/* Action Buttons */}
+        <Row className="mb-4">
+            <Col>
+                <Button variant="outline-secondary">Return To Shop</Button> {/* تعديل الزرار */}
+            </Col>
+            <Col className="text-end">
+                <Button variant="outline-primary">Update Cart</Button> {/* زرار Update Cart شفاف */}
+            </Col>
+        </Row>
+
+    {/* Coupon Code and Cart Total */}
+    <Row>
+    <Col md={6}>
+        <div className="d-flex">
+        <Form.Control
             type="text"
             placeholder="Coupon Code"
+            className="me-2"
             value={coupon}
             onChange={(e) => setCoupon(e.target.value)}
-            />
-        </Form.Group>
-        <Button variant="primary" onClick={handleApplyCoupon}>
-            Apply Coupon
+        />
+        <Button variant="danger" onClick={handleApplyCoupon}>Apply Coupon</Button>
+        </div>
+    </Col>
+    <Col md={6}>
+        <Card className="p-3 m-auto border border-black">
+        <h5>Cart Total</h5>
+        <div className="d-flex justify-content-between">
+            <span>Subtotal:</span>
+            <span>${total.toFixed(2)}</span>
+        </div>
+        <div className="d-flex justify-content-between">
+            <span>Shipping:</span>
+            <span>Free</span>
+        </div>
+        <hr />
+        <div className="d-flex justify-content-between fw-bold">
+            <span>Total:</span>
+            <span>$1750</span>
+        </div>
+        <Button variant="danger" className="w-100 mt-3">
+            Proceed to Checkout
         </Button>
-        </Form>
+        </Card>
     </Col>
     </Row>
-</Container>
-);
+</div>
+);    
 };
 
 export default ShoppingCart;

@@ -44,11 +44,11 @@ const Footer: React.FC = () => {
             <Col md={2} sm={6} xs={12}>
               <h5 style={{ fontWeight: "bold" }}>Account</h5>
               <ul className="list-unstyled">
-                <li><a href="#" style={{ color: "#fff", textDecoration: "none" }}>My Account</a></li>
-                <li><a href="#" style={{ color: "#fff", textDecoration: "none" }}>Login / Register</a></li>
-                <li><a href="#" style={{ color: "#fff", textDecoration: "none" }}>Cart</a></li>
-                <li><a href="#" style={{ color: "#fff", textDecoration: "none" }}>Wishlist</a></li>
-                <li><a href="#" style={{ color: "#fff", textDecoration: "none" }}>Shop</a></li>
+                <li><a href="/Account" style={{ color: "#fff", textDecoration: "none" }}>My Account</a></li>
+                <li><a href="/Login" style={{ color: "#fff", textDecoration: "none" }}>Login / Register</a></li>
+                <li><a href="/Cart" style={{ color: "#fff", textDecoration: "none" }}>Cart</a></li>
+                <li><a href="/Wishlist" style={{ color: "#fff", textDecoration: "none" }}>Wishlist</a></li>
+                <li><a href="/products" style={{ color: "#fff", textDecoration: "none" }}>Products</a></li>
               </ul>
             </Col>
 
@@ -75,16 +75,19 @@ const Footer: React.FC = () => {
                   className=" thumbnail "
                   />
                 <div>
-                  <img
+                  <a href="https://play.google.com/store/games?device=windows" target="_blank"><img
                     src={GooglePlay}
                     alt="Google Play"
-                    style={{ width: "120px", marginBottom: "5px" }}
+                    style={{ width: "40px", marginBottom: "5px" }}
                   />
+                  </a>
+                  <a href="https://www.apple.com/eg-ar/app-store/" target="_blank">
                   <img
                     src={playStore}
                     alt="App Store"
-                    style={{ width: "120px" }}
+                    style={{ width: "40px" }}
                   />
+                  </a>
                 </div>
               </div>
               <div className="d-flex mt-3">

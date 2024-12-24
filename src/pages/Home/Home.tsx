@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Carousel, Row, Col, Card, Button, Container } from "react-bootstrap";
+import { useEffect } from "react";
+import { Row, Col, Card, Button, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import Products from "../../assets/Product";
@@ -22,7 +22,7 @@ const App = () => {
     if (!products.length) {
       getProducts();
     }
-  }, []);
+  }, [getProducts, products.length]);
   // const products = [
   //   { id: 1, name: 'Product 1', image: 'product1' },
   //   { id: 2, name: 'Product 2', image: 'product2' },
@@ -139,11 +139,11 @@ const App = () => {
       <Banner />
       <BestSellingProducts />
       <ProductsComp />
-      {/*  <CategoryBrowse />
+      <CategoryBrowse />
       <NewArrival />
       <ExploreProducts />
       <WhyUs />
-      <CustomerReviews /> */}
+      <CustomerReviews />
     </Container>
   );
 };

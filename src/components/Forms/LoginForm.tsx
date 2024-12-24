@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { ILogin } from "../../util/intaerfaces";
+import { ILogin } from "../../util/interfaces";
 import { useAppContext } from "../../context/AppContext";
 import Joi from "joi";
 import Spinner from "react-bootstrap/Spinner";
@@ -19,7 +19,7 @@ const schema = Joi.object({
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  const { handleLogIn, loading, errorMSG, user } = useAppContext();
+  const { handleLogIn, errorMSG, user } = useAppContext();
   const [errors, setErrors] = useState<ILogin>({ email: "", password: "" });
 
   const [inputDate, setInputDate] = useState<ILogin>({
@@ -101,7 +101,7 @@ export default function RegisterForm() {
               <Form.Check type="checkbox" label="Check me out" />
             </Form.Group>
 
-            {loading ? (
+            {errorMSG ? (
               <Spinner animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>

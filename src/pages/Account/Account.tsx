@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Spinner } from "react-bootstrap";
-import Joi, { string } from "joi";
+import Joi from "joi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+// import styles from "./Account.module.css"; // Import the CSS module
 
 const schema = Joi.object({
   firstName: Joi.string().min(2).max(30).required().messages({
@@ -30,7 +31,7 @@ const schema = Joi.object({
   }),
 });
 
-const Account = () => {
+const Account: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -40,7 +41,7 @@ const Account = () => {
     newPassword: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ [key: string]: string; }>({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState({
     currentPassword: false,
@@ -48,24 +49,30 @@ const Account = () => {
     confirmPassword: false,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: string; value: string; }; }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
   };
 
-  const togglePasswordVisibility = (field: string) => {
+  const togglePasswordVisibility = (field: keyof typeof showPassword) => {
     setShowPassword({ ...showPassword, [field]: !showPassword[field] });
   };
 
-  const handleSubmit = (e) => {
+
+  interface Errors {
+    [key: string]: string;
+  }
+
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { error } = schema.validate(formData, { abortEarly: false });
 
     if (error) {
-      const errorMessages = {};
+      const errorMessages: Errors = {};
       error.details.forEach((err) => {
-        errorMessages[err.context.key] = err.message;
+        errorMessages[err.context?.key as string] = err.message;
       });
       setErrors(errorMessages);
       return;
@@ -78,12 +85,14 @@ const Account = () => {
   };
 
   return (<>
-    <h3 className="text-danger d-flex align-items-center justify-content-center ">Edit Your Profile</h3>
-    <div className="min-vh-100 w-100 d-flex align-items-center justify-content-center text-nowrap rounded-4">
-      <Form onSubmit={handleSubmit} className="bg-white p-3">
+    <div className="max-vh-100 mt-4 d-flex flex-column align-items-center justify-content-center text-nowrap rounded-2">
+      <Form onSubmit={handleSubmit} className="bg-white  border border-dark p-3 rounded-2">
         <Row className="mb-3 ">
+          <Col className="text-danger align-items-center justify-content-center">
+            <h3 className="">Edit Your Profile</h3>
+          </Col>
           <Col>
-            <Form.Group controlId="formFirstName">
+            <Form.Group controlId="formFirstName ">
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
@@ -91,8 +100,7 @@ const Account = () => {
                 placeholder="Enter your first name"
                 value={formData.firstName}
                 onChange={handleChange}
-                isInvalid={!!errors.firstName}
-              />
+                isInvalid={!!errors.firstName} />
               <Form.Control.Feedback type="invalid">
                 {errors.firstName}
               </Form.Control.Feedback>
@@ -107,8 +115,7 @@ const Account = () => {
                 placeholder="Enter your last name"
                 value={formData.lastName}
                 onChange={handleChange}
-                isInvalid={!!errors.lastName}
-              />
+                isInvalid={!!errors.lastName} />
               <Form.Control.Feedback type="invalid">
                 {errors.lastName}
               </Form.Control.Feedback>
@@ -126,8 +133,7 @@ const Account = () => {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                isInvalid={!!errors.email}
-              />
+                isInvalid={!!errors.email} />
               <Form.Control.Feedback type="invalid">
                 {errors.email}
               </Form.Control.Feedback>
@@ -142,8 +148,7 @@ const Account = () => {
                 placeholder="Enter your address"
                 value={formData.address}
                 onChange={handleChange}
-                isInvalid={!!errors.address}
-              />
+                isInvalid={!!errors.address} />
               <Form.Control.Feedback type="invalid">
                 {errors.address}
               </Form.Control.Feedback>
@@ -162,8 +167,7 @@ const Account = () => {
                   name="currentPassword"
                   placeholder="Enter your current password"
                   value={formData.currentPassword}
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
                 <Button
                   variant="outline-secondary"
                   className="ms-2"
@@ -187,8 +191,7 @@ const Account = () => {
                   placeholder="Enter your new password"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  isInvalid={!!errors.newPassword}
-                />
+                  isInvalid={!!errors.newPassword} />
                 <Button
                   variant="outline-secondary"
                   className="ms-2"
@@ -212,8 +215,7 @@ const Account = () => {
                   placeholder="Confirm your new password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  isInvalid={!!errors.confirmPassword}
-                />
+                  isInvalid={!!errors.confirmPassword} />
                 <Button
                   variant="outline-secondary"
                   className="ms-2"
@@ -247,6 +249,6 @@ const Account = () => {
     </div>
   </>
   );
-};
+}
 
 export default Account;

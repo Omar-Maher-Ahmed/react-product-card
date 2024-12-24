@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { IRegister } from "../../util/intaerfaces";
+import { IRegister } from "../../util/interfaces";
 import { useAppContext } from "../../context/AppContext";
 import Joi from "joi";
 import Spinner from "react-bootstrap/Spinner";

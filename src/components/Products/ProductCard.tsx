@@ -1,4 +1,4 @@
-import { IProduct } from "../../util/intaerfaces";
+import { IProduct } from "../../util/interfaces";
 import { Button, Card, Col } from "react-bootstrap";
 import placeholder from "../../assets/placedholder.jpg";
 type Props = {

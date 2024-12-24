@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {/* Left: Images */}
         <Col md={6}>
           <Image
-            src={images.length > 0 ? images[0] : '../../assets/Products/product7.png'}
+            src={images.length > 0 ? images[0] : '../../assets/Products'}
             thumbnail
             alt="Product Image"
           />
@@ -117,6 +117,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </Card.Body>
             </Card>
           </Card>
+        </Col>
+        {/* Related Item */}
+        <Col>
         </Col>
       </Row>
     </Container>

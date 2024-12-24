@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useContext } from "react";
 import { ILogin, IProduct, IRegister, IUser } from "../util/intaerfaces";
-import apiClient from "../lib/axios";
+import {login,register, getProducts as getProductsapi} from "../util/apiService";
 
 type AppContextType = {
   errorMSG: string | null;
@@ -30,19 +30,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const handleLogIn = async (data: ILogin) => {
-    const base64Credentials = btoa(`${data.email}:${data.password}`);
+    
     setLoading(true);
     setErrorMSG(null);
-    apiClient
-      .get(`/users/login/`, {
-        headers: {
-          Authorization: `Basic ${base64Credentials}`,
-        },
-      })
-      .then(({ data }) => {
-        localStorage.setItem("token", `${base64Credentials}`);
-        localStorage.setItem("user", JSON.stringify(data));
-        setUser(data);
+    login(data.email,data.password)
+      .then((response) => {
+        localStorage.setItem("user", JSON.stringify(response));
+        setUser(response);
       })
       .catch(({ response }) => {
         setErrorMSG(response?.data?.detail || "In-Valid login");
@@ -52,26 +46,22 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const getProducts = async () => {
     setLoading(true);
-    apiClient
-      .get("/products")
-      .then((response) => {
-        console.log(response);
-        setProducts(response?.data);
-      })
-      .catch((er) => {
-        console.log(er);
-      })
-      .finally(() => {
+    try {
+        const response = await getProductsapi();
+        console.log("App Context Products:", response); // تحقق من البيانات هنا
+        setProducts(response);
+    } catch (error) {
+        console.error("Error in AppContext getProducts:", error);
+    } finally {
         setLoading(false);
-      });
-  };
+    }
+};
 
   const handleRegister = async (data: ILogin) => {
     console.log(data);
     setUser(null);
     setLoading(true);
-    apiClient
-      .post(`/users/register`, data)
+    register({ email: data.email, password: data.password })
       .then((response) => {
         console.log(response);
       })
@@ -84,8 +74,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const checkUser = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    
       const userToken = localStorage.getItem("user");
       if (userToken) {
         try {
@@ -94,7 +83,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           setUser(null);
         }
       }
-    }
+    
   };
 
   const value = {

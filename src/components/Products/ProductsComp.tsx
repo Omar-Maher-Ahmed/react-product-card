@@ -7,10 +7,11 @@ export default function ProductsComp() {
   const { products, getProducts, loading } = useAppContext();
 
   useEffect(() => {
+    console.log("Products in useEffect:", products); // تحقق من المنتجات هنا
     if (!products.length) {
-      getProducts();
+        getProducts();
     }
-  }, []);
+}, [products, getProducts]);
   
   return (
     <>

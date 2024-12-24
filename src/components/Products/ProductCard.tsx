@@ -9,7 +9,7 @@ export default function ProductCard({ product }: Props) {
   return (
     <Col md={3} key={product.id} className="mb-3">
       <Card className="h-100">
-        <Card.Img variant="top" src={product.image || placeholder} />
+        <Card.Img variant="top" src={product.image_url || placeholder} />
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>
           <Button variant="primary">Buy Now</Button>

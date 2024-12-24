@@ -1,4 +1,5 @@
 import apiClient from "../lib/axios";
+import { IProduct, IUser, CartList, CartItem } from "./intaerfaces";
 export const checkAuth = (): void => {
     // Check if the authorization header is present
     if (!apiClient.defaults.headers.common['Authorization']) {
@@ -34,18 +35,7 @@ const handleError = (error: any): Promise<any> => {
 /**
  * Product interface represents the structure of a product object returned by the API.
  */
-export interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    stock: number;
-    category: string;
-    image_url: string;
-    is_available: boolean;
-    created_at: string;
-    updated_at: string;
-}
+
 
 /**
  * Example Response:
@@ -72,7 +62,7 @@ export interface Product {
  * It does not require any parameters and returns a list of product objects, each containing details
  * such as the product's name, description, price, and availability.
  * 
- * @returns {Promise<Product[]>} A promise that resolves to an array of products.
+ * @returns {Promise<IProduct[]>} A promise that resolves to an array of products.
  * 
  * @throws {ApiError} If there is an error during the API call, the error is caught and handled by
  * the `handleError` function, which processes the error appropriately.
@@ -81,9 +71,10 @@ export interface Product {
  * const products = await getProducts();
  * console.log(products);
  */
-export const getProducts = async (): Promise<Product[]> => {
+export const getProducts = async (): Promise<IProduct[]> => {
     try {
         const response = await apiClient.get("/products/");
+        console.log("API Response:", response.data);
         return response.data;
     } catch (error: unknown) {
         return handleError(error);
@@ -100,7 +91,7 @@ export const getProducts = async (): Promise<Product[]> => {
  * 
  * @param {number} id - The unique identifier of the product you want to fetch.
  * 
- * @returns {Promise<Product>} A promise that resolves to a `Product` object.
+ * @returns {Promise<IProduct>} A promise that resolves to a `Product` object.
  * 
  * @throws {ApiError} If there is an error during the API call, the error is caught and handled by
  * the `handleError` function, which processes the error appropriately.
@@ -109,7 +100,7 @@ export const getProducts = async (): Promise<Product[]> => {
  * const product = await getProduct(1);
  * console.log(product);
  */
-export const getProduct = async (id: number): Promise<Product> => {
+export const getProduct = async (id: number): Promise<IProduct> => {
     try {
         const response = await apiClient.get(`/products/${id}/`);
         return response.data;  // Returns a single product object
@@ -123,16 +114,7 @@ export const getProduct = async (id: number): Promise<Product> => {
 /**
  * UserData interface represents the structure of the user object returned by the API upon successful login.
  */
-export interface UserData {
-    id: number;            // Unique identifier for the user
-    username: string;      // The user's username
-    email: string;         // The user's email address
-    first_name: string;    // The user's first name
-    last_name: string;     // The user's last name
-    is_staff: boolean;     // Indicates whether the user is a staff member
-    address: string;       // The user's address
-    phone_number: string;  // The user's phone number
-}
+
 
 /**
  * Handles user login via Basic Authentication.
@@ -144,7 +126,7 @@ export interface UserData {
  * @param {string} email - The user's email address used for login.
  * @param {string} password - The user's password used for login.
  * 
- * @returns {Promise<UserData>} A promise that resolves to the user's data if authentication is successful.
+ * @returns {Promise<IUser>} A promise that resolves to the user's data if authentication is successful.
  * 
  * @throws {ApiError} If there is an error during the API call, the error is caught and handled by
  * the `handleError` function, which processes the error appropriately.
@@ -153,7 +135,7 @@ export interface UserData {
  * const user = await login('user@example.com', 'password123');
  * console.log(user);
  */
-export const login = async (email: string, password: string): Promise<UserData> => {
+export const login = async (email: string, password: string): Promise<IUser> => {
     try {
         // Set the Authorization header for Basic Authentication
         apiClient.defaults.headers.common['Authorization'] = `Basic ${btoa(`${email}:${password}`)}`;
@@ -229,7 +211,7 @@ export const login = async (email: string, password: string): Promise<UserData> 
  * const user = await register(userData);
  * console.log(user);
  */
-export const register = async (data: Record<string, unknown>): Promise<UserData> => {
+export const register = async (data: Record<string, unknown>): Promise<IUser> => {
     if (!data.email || !data.password) {
         throw new Error("Data must include 'email' and 'password'");
     }
@@ -250,26 +232,13 @@ export const register = async (data: Record<string, unknown>): Promise<UserData>
  * CartList interface represents the structure of the data returned from the `/orders/cart/` endpoint.
  * It includes a list of orders where each order has its `id`, `items`, `total_price`, `order_date`, `status`, and `user`.
  */
-export interface CartList {
-    id: number;              // Unique identifier for the cart
-    items: CartItem[];       // List of items in the cart
-    total_price: string;     // Total price of items in the cart
-    order_date: string;      // Date when the cart was created or last updated
-    status: string;          // Status of the order (e.g., "CART")
-    user: number;            // User ID associated with this cart
-}
+
 
 /**
  * CartItem interface represents the structure of each item in the cart.
  * Each item has an `id`, `quantity`, `price`, associated `order`, and linked `product`.
  */
-export interface CartItem {
-    id: number;              // Unique identifier for the item in the cart
-    quantity: number;        // Quantity of the product in the cart
-    price: string;           // Price of the product
-    order: number;           // Order ID to which this item belongs
-    product: number;         // Product ID
-}
+
 
 /**
  * Retrieves the authenticated user's cart containing orders with the status "CART".
